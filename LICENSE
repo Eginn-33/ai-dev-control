@@ -36,6 +36,23 @@ connection with the software or its use.
 
 5. Third-party components
 
-The software bundles third-party components, including Electron and Chromium.
-Those components are licensed under their own terms, included in the
-installation directory as LICENSE.electron.txt and LICENSES.chromium.html.
+The software includes third-party components that are licensed under their
+own terms. Their notices and license texts ship with the software:
+
+- THIRD-PARTY-NOTICES.txt lists the open-source packages bundled in the user
+  interface, the helper code added by the build tools, and the installer
+  components (NSIS, the NSIS script templates of electron-builder, and the
+  NSIS plug-ins embedded in the installer, the uninstaller and the portable
+  version), with their license texts.
+- LICENSE.electron.txt and LICENSES.chromium.html cover Electron, Chromium
+  and Node.js.
+
+From version 1.6.1 on, all three files are in the installation directory;
+the portable version unpacks them next to the application while it runs.
+THIRD-PARTY-NOTICES.txt is also attached to each release from 1.6.1 on, on
+this repository's Releases page.
+
+Nothing in this license limits the rights that the license of a third-party
+component gives you in that component, including the rights that the GNU
+Lesser General Public License gives you in the LGPL-licensed installer
+plug-ins.
