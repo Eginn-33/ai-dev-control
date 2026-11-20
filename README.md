@@ -1,16 +1,14 @@
-# AI Dev Control
+<p align="center"><img src="docs/banner.png" alt="AI Dev Control (AI研发总控): one model writes the code, another vendor's model reviews it blind, and a failing test exit code can't be talked into a pass" width="100%"></p>
 
-<sub>AI研发总控</sub>
-
-**English** · [简体中文](README.zh-CN.md)
+<p align="center"><b>English</b> · <a href="README.zh-CN.md">简体中文</a></p>
 
 Several AI coding assistants working on your project together, on your own Windows PC. One model writes the code; a model from a different vendor reviews it blind, without seeing how it was written. The app runs the tests itself, and no model can talk a failing exit code into a pass.
 
-**Windows x64 · v1.6.2 · UI: Simplified Chinese · installer only, source not public**
+<p align="center"><b>Windows x64 · v1.6.2 · UI: Simplified Chinese · installer only, source not public</b><br><a href="https://github.com/Eginn-33/ai-dev-control/releases/latest">Download the latest installer →</a></p>
 
-![Task detail: the plan, two parallel subtasks written by gpt-6.1-sol through the Codex CLI, the merge, and on the right two blind reviews by claude-opus-5-5 and glm-5.3, both marked independent and cross-model](docs/screenshots/task-detail.png)
+<p align="center"><img src="docs/task-run.gif" alt="Recording of a real task in the installed app: the plan, the baseline, the version-control step and the code change complete one after another, the code is frozen into a fingerprinted snapshot, a blind review by glm-5.3 finishes as independent and cross-model, and the task ends on its own branch waiting to be merged" width="820"></p>
 
-<sub>A real task on a small demo project, run on subscriptions only. The Codex CLI (gpt-6.1-sol) planned it and wrote it as two parallel subtasks; Claude (claude-opus-5-5) and GLM (glm-5.3) reviewed it blind. The UI is Simplified Chinese only.</sub>
+<p align="center"><sub>A real task recorded on 1.6.2 (demo project, subscriptions only). Claude (claude-opus-5-5) plans and writes the fix, the code is frozen into a fingerprinted snapshot, GLM (glm-5.3) reviews it blind, then the app runs the tests itself. The task ends on its own branch; merging is your call.</sub></p>
 
 ## Why
 
@@ -22,6 +20,10 @@ AI Dev Control is built on two rules:
 - **Measured beats claimed.** The app runs your project's test command itself and goes by the exit code. A model can never turn a failing exit code into a pass. If the exit code passes but the model reports a failure, the stricter verdict (fail) stands, and both are recorded.
 
 ## How a task runs
+
+<p align="center"><img src="docs/flow-en.png" alt="How a task runs: you describe the task, then 1 Plan, 2 Develop (subtasks in separate working copies, models from different vendors, three-way merge), 3 Freeze (SHA-256 fingerprint per file), 4 Blind review (fresh session, another vendor, snapshot only), 5 Tests (run by the app, a model cannot overrule a failing exit code), 6 Security (model plus deterministic scanners), 7 Deliver (on a task branch). Blocking issues loop back: fix, new snapshot, review again; if fixer and reviewer still disagree, a third party arbitrates." width="100%"></p>
+
+<details><summary>Text version</summary>
 
 ```text
 You describe the task
@@ -45,6 +47,8 @@ Security ....... a model reads the code + deterministic scanners
   ▼
 Deliver ........ on a task branch
 ```
+
+</details>
 
 - A reviewer never comes from the same vendor family as the developer. If that leaves nobody, it first tries another model from the same vendor, and only then a fresh instance of the same model, and it labels the review for what it is instead of calling it cross-model independent.
 - If a working model is missing a key fact, the task stops and asks you (see *Question bridge* below).
@@ -95,19 +99,18 @@ Deliver ........ on a task branch
 
 ## Screenshots
 
-All screenshots are of the installed app, taken in a clean demo data folder while it ran the real task shown above. The interface is Simplified Chinese.
+All four come from one real task in the installed app, taken in a clean demo data folder on 1.6.0 (these screens are unchanged in 1.6.1 and 1.6.2). The Codex CLI (gpt-6.1-sol) planned it and wrote it as two parallel subtasks; Claude (claude-opus-5-5) and GLM (glm-5.3) reviewed it blind. The interface is Simplified Chinese. Click a picture for full size.
 
-![The same task further down: the two blind reviews, the review summary, the final snapshot, and the real test run with exit code 0](docs/screenshots/task-review-and-tests.png)
-
-<sub>**Review and tests.** Two blind reviews on the same frozen snapshot (claude-opus-5-5 and glm-5.3, both "independent, cross-model"), the merged review summary, then the app running `npm run test` itself: exit code 0. The browser check is marked not applicable because this project has no web entry point.</sub>
-
-![Blind review detail: a checklist of independence evidence, what the reviewer was given and what was withheld, and the exact snapshot it reviewed](docs/screenshots/review-detail.png)
-
-<sub>**Independence proof.** Reviewer and developer are different instances, sessions and models (claude-opus-5-5 reviewing gpt-6.1-sol); zero prior contact; working directory is the frozen snapshot; no access to the real project folder; snapshot fingerprint unchanged during the review. Below that: what the reviewer was given, and the list of things it was never shown.</sub>
-
-![Team and executors page in the demo data folder: Claude Code and the Codex CLI connected through subscriptions with their live quota, API providers switched off until a key is added](docs/screenshots/team.png)
-
-<sub>**Team & executors in the demo setup** (Codex switched to CLI mode, a GLM Coding Plan model added, local Ollama put on the manual-only list). Subscriptions show live quota read from the provider (here Claude at 90% of its weekly limit, the Codex CLI at 1%). API providers stay switched off until you add a key.</sub>
+<table>
+<tr>
+<td width="50%" valign="top"><a href="docs/screenshots/task-detail.png"><img src="docs/screenshots/task-detail.png" alt="Task detail: the plan, two parallel subtasks written by gpt-6.1-sol through the Codex CLI, the merge, and on the right two blind reviews by claude-opus-5-5 and glm-5.3, both marked independent and cross-model"></a><br><sub><b>Task detail.</b> The plan, two parallel subtasks written by gpt-6.1-sol, the merge, and on the right two blind reviews (claude-opus-5-5 and glm-5.3), both marked independent and cross-model.</sub></td>
+<td width="50%" valign="top"><a href="docs/screenshots/task-review-and-tests.png"><img src="docs/screenshots/task-review-and-tests.png" alt="The same task further down: the two blind reviews, the review summary, the final snapshot, and the real test run with exit code 0"></a><br><sub><b>Review and tests.</b> Two blind reviews on the same frozen snapshot, the merged review summary, then the app running <code>npm run test</code> itself: exit code 0.</sub></td>
+</tr>
+<tr>
+<td width="50%" valign="top"><a href="docs/screenshots/review-detail.png"><img src="docs/screenshots/review-detail.png" alt="Blind review detail: a checklist of independence evidence, what the reviewer was given and what was withheld, and the exact snapshot it reviewed"></a><br><sub><b>Independence proof.</b> Different instance, session and model; zero prior contact; only the frozen snapshot; snapshot fingerprint unchanged during the review; plus what the reviewer was given and what it was never shown.</sub></td>
+<td width="50%" valign="top"><a href="docs/screenshots/team.png"><img src="docs/screenshots/team.png" alt="Team and executors page in the demo data folder: Claude Code and the Codex CLI connected through subscriptions with their live quota, API providers switched off until a key is added"></a><br><sub><b>Team &amp; executors.</b> Subscriptions show live quota read from the provider; API providers stay switched off until you add a key; local models are manual-only.</sub></td>
+</tr>
+</table>
 
 ## Works with
 

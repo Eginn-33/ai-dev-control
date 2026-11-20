@@ -1,16 +1,14 @@
-# AI研发总控
+<p align="center"><img src="docs/banner.png" alt="AI研发总控（AI Dev Control）：一个模型写代码，另一家的模型盲审，失败的测试退出码谁也说不成通过" width="100%"></p>
 
-<sub>AI Dev Control</sub>
-
-[English](README.md) · **简体中文**
+<p align="center"><a href="README.md">English</a> · <b>简体中文</b></p>
 
 在你自己的 Windows 电脑上，让几家 AI 编程助手一起给你的项目干活。一个模型写代码，另一家的模型在看不到开发过程的情况下独立审核。测试由总控自己跑，失败的退出码哪个模型也说不成通过。
 
-**Windows x64 · v1.6.2 · 界面：简体中文 · 只发安装包，源码不公开**
+<p align="center"><b>Windows x64 · v1.6.2 · 界面：简体中文 · 只发安装包，源码不公开</b><br><a href="https://github.com/Eginn-33/ai-dev-control/releases/latest">下载最新安装包 →</a></p>
 
-![任务详情：规划、Codex 命令行（gpt-6.1-sol）写的两个并行子任务、合并；右边是 claude-opus-5-5 和 glm-5.3 两位盲审，都标着真实独立、跨模型](docs/screenshots/task-detail.png)
+<p align="center"><img src="docs/task-run.gif" alt="在装好的软件里真跑一个任务的录屏：规划、记录基线、版本控制准备、开发实现依次完成，代码冻结成带指纹的快照，glm-5.3 的独立盲审完成并标为真实独立、跨模型，任务最后停在自己的分支上等你合并" width="820"></p>
 
-<sub>在一个小演示项目上真跑的一个任务，只用订阅。Codex 命令行（gpt-6.1-sol）做规划，拆成两个并行子任务写代码；Claude（claude-opus-5-5）和 GLM（glm-5.3）各自盲审。界面只有简体中文。</sub>
+<p align="center"><sub>在 1.6.2 上录的一个真实任务（演示项目，只用订阅）。Claude（claude-opus-5-5）做规划、写修复，代码冻结成带指纹的快照，GLM（glm-5.3）盲审，然后总控自己跑测试。任务最后停在自己的分支上，合不合进主分支你说了算。</sub></p>
 
 ## 为什么做这个
 
@@ -22,6 +20,10 @@
 - **实测说了算。** 总控自己去跑项目的测试命令，按退出码判。模型没法把失败的退出码说成通过；退出码过了、模型却报失败时，按更严的那个（失败）算，两边都记下来。
 
 ## 一个任务怎么跑
+
+<p align="center"><img src="docs/flow-zh.png" alt="一个任务怎么跑：你说要做什么，然后 1 规划、2 开发（拆子任务、独立工作副本、不同家的模型、三方合并）、3 冻结快照（每个文件 SHA-256 指纹）、4 独立盲审（全新会话、另一家的模型、只看快照）、5 测试（总控自己跑，模型推翻不了失败的退出码）、6 安全检查（模型读代码加确定性扫描）、7 交付（在任务分支上）。有达到门槛的问题就修复、出新快照、再审；修复方和审核员仍有分歧时第三方仲裁。" width="100%"></p>
+
+<details><summary>文字版</summary>
 
 ```text
 你说要做什么
@@ -43,6 +45,8 @@
   ▼
 交付 ……… 在任务分支上
 ```
+
+</details>
 
 - 和开发方同一家的模型一律不派去审核。排除完一个人都不剩时，先换同一家的另一个型号，再不行才退回「同一个模型、全新实例」，并且在审核记录里照实标出来，不冒充跨模型独立。
 - 干活的模型缺关键信息时，任务会停下来问你（见下面「提问桥」）。
@@ -93,19 +97,18 @@
 
 ## 截图
 
-截图都是装好的软件，在一个干净的演示数据目录里、跑上面那个真实任务时截的。界面是简体中文。
+四张都来自同一个真实任务，在装好的软件里、干净的演示数据目录中拍的，版本是 1.6.0（这几个界面在 1.6.1、1.6.2 没有变化）。Codex 命令行（gpt-6.1-sol）做规划，拆成两个并行子任务写代码；Claude（claude-opus-5-5）和 GLM（glm-5.3）各自盲审。界面只有简体中文。点图看大图。
 
-![同一个任务往下翻：两位盲审、审核结论汇总、最终代码版本，以及真实测试退出码 0](docs/screenshots/task-review-and-tests.png)
-
-<sub>**审核和测试。** 两位盲审看的是同一份冻结快照（claude-opus-5-5 和 glm-5.3，都标「independent（跨模型）」），然后是审核结论汇总，最后总控自己跑 `npm run test`：退出码 0。这个项目没有网页入口，浏览器检查记为不适用。</sub>
-
-![盲审详情：逐条可核对的独立性证据、给了审核员什么和没给什么、审的是哪一份快照](docs/screenshots/review-detail.png)
-
-<sub>**独立性证明。** 审核和开发是不同的实例、会话和模型（claude-opus-5-5 审 gpt-6.1-sol 写的代码）；审核前接触记录为 0；工作目录是冻结快照；没给项目真实目录的访问权；审核期间快照指纹没变。下面列着给了审核员什么，以及明确没给的东西。</sub>
-
-![演示数据目录里的团队与执行器：Claude Code 和 Codex 命令行走订阅，显示实时额度；按量接口没填 key 就关着](docs/screenshots/team.png)
-
-<sub>**演示环境里的团队与执行器**（Codex 切成命令行、加了一个 GLM Coding Plan 型号、本机 Ollama 加进了仅手动名单）。订阅那几行显示从各家读到的实时额度（这里 Claude 本周已用 90%，Codex 命令行 1%）。按量接口没填 key 之前一直关着。</sub>
+<table>
+<tr>
+<td width="50%" valign="top"><a href="docs/screenshots/task-detail.png"><img src="docs/screenshots/task-detail.png" alt="任务详情：规划、Codex 命令行（gpt-6.1-sol）写的两个并行子任务、合并；右边是 claude-opus-5-5 和 glm-5.3 两位盲审，都标着真实独立、跨模型"></a><br><sub><b>任务详情。</b>规划、gpt-6.1-sol 写的两个并行子任务、合并；右边两位盲审（claude-opus-5-5、glm-5.3）都标着真实独立、跨模型。</sub></td>
+<td width="50%" valign="top"><a href="docs/screenshots/task-review-and-tests.png"><img src="docs/screenshots/task-review-and-tests.png" alt="同一个任务往下：两位盲审、审核汇总、最终快照，以及退出码 0 的真实测试"></a><br><sub><b>审核和测试。</b>两位盲审看的是同一份冻结快照，接着是审核汇总，然后总控自己跑 <code>npm run test</code>：退出码 0。</sub></td>
+</tr>
+<tr>
+<td width="50%" valign="top"><a href="docs/screenshots/review-detail.png"><img src="docs/screenshots/review-detail.png" alt="盲审详情：独立性证据清单、给了审核员什么、没给什么，以及它审的那份快照"></a><br><sub><b>独立性证明。</b>不同实例、不同会话、不同模型；之前零接触；只看冻结快照；审核期间快照指纹没变；另列出给了审核员什么、哪些从没给它看。</sub></td>
+<td width="50%" valign="top"><a href="docs/screenshots/team.png"><img src="docs/screenshots/team.png" alt="演示数据目录里的团队与执行器页：Claude Code 和 Codex 命令行走订阅、显示实时额度，按量接口在填 key 之前保持关闭"></a><br><sub><b>团队与执行器。</b>订阅显示从服务商读到的实时额度；按量接口在你填 key 之前一直关着；本机模型只能手动指定。</sub></td>
+</tr>
+</table>
 
 ## 能接什么
 
