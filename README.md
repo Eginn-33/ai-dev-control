@@ -6,7 +6,7 @@
 
 Several AI coding assistants working on your project together, on your own Windows PC. One model writes the code; a model from a different vendor reviews it blind, without seeing how it was written. The app runs the tests itself, and no model can talk a failing exit code into a pass.
 
-**Windows x64 · v1.6.1 · UI: Simplified Chinese · installer only, source not public**
+**Windows x64 · v1.6.2 · UI: Simplified Chinese · installer only, source not public**
 
 ![Task detail: the plan, two parallel subtasks written by gpt-6.1-sol through the Codex CLI, the merge, and on the right two blind reviews by claude-opus-5-5 and glm-5.3, both marked independent and cross-model](docs/screenshots/task-detail.png)
 
@@ -124,7 +124,7 @@ Gemini only works through an API key at the moment; see *Known limitations*.
 
 ## How it's tested
 
-- **Full offline suite:** 82 test files, 2,082 test cases. 2,081 passed, 1 skipped (a slow case that needs a special environment variable), 0 failed. Three TypeScript builds, 0 errors.
+- **Full offline suite:** 83 test files, 2,115 test cases. 2,114 passed, 1 skipped (a slow case that needs a special environment variable), 0 failed. Three TypeScript builds, 0 errors.
 - **On a real machine, using the installed build:** a UI crawl across 15 pages and their tabs (94 requests, 0 failed, 0 console errors); pause / resume / cancel drills; an install drill set up like a fresh computer.
 - **Deterministic test bench:** a local fake model drives 6 scenarios: quota exhausted, a reviewer handing in an empty review, a credential lookup timing out, a new model being onboarded, a rerun after a question, and the scope brake. Real model calls: 0.
 - **With real models:** the app fixing its own code, having several vendors each draft a plan and comparing the plans, session resume, and a capability test for each model.
@@ -136,12 +136,12 @@ Gemini only works through an API key at the moment; see *Known limitations*.
 
 1. Open [the latest release](https://github.com/Eginn-33/ai-dev-control/releases/latest).
 2. Download one of:
-   - `AI-Dev-Control-Setup-1.6.1-x64.exe`: the installer. Installs for the current user only, no administrator rights needed.
-   - `AI-Dev-Control-Portable-1.6.1-x64.exe`: the portable version. No installation, just run it.
+   - `AI-Dev-Control-Setup-1.6.2-x64.exe`: the installer. Installs for the current user only, no administrator rights needed.
+   - `AI-Dev-Control-Portable-1.6.2-x64.exe`: the portable version. No installation, just run it.
 3. Check the file against `SHA256SUMS.txt` from the same release:
 
    ```powershell
-   Get-FileHash .\AI-Dev-Control-Setup-1.6.1-x64.exe -Algorithm SHA256
+   Get-FileHash .\AI-Dev-Control-Setup-1.6.2-x64.exe -Algorithm SHA256
    ```
 
    The hash it prints (in upper case) should match the line for that file in `SHA256SUMS.txt` (in lower case).
