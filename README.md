@@ -23,19 +23,27 @@ AI Dev Control is built on two rules:
 
 ## How a task runs
 
-```mermaid
-flowchart TD
-    A["You describe the task"] --> B["Plan"]
-    B --> C["Develop<br/>subtasks in separate working copies,<br/>models from different vendors,<br/>then a three-way merge"]
-    C --> D["Freeze a snapshot<br/>SHA-256 fingerprint per file"]
-    D --> E["Independent blind review<br/>fresh session, another vendor,<br/>sees only the snapshot"]
-    E -->|"blocking issues"| F["Fix"]
-    F -->|"new snapshot"| D
-    F -.->|"fixer and reviewer still disagree"| G["Third-party arbitration"]
-    G -.->|"rules on each disputed issue"| E
-    E -->|"passed"| H["Tests<br/>run by the app itself;<br/>a model cannot overrule a failing exit code<br/>+ real browser for web projects"]
-    H --> I["Security check<br/>+ deterministic scanners"]
-    I --> J["Deliver on a task branch"]
+```text
+You describe the task
+  │
+  ▼
+Plan
+  ▼
+Develop ........ subtasks in separate working copies, models from different
+                 vendors, then a three-way merge
+  ▼
+Freeze ......... snapshot with a SHA-256 fingerprint per file
+  ▼
+Blind review ... fresh session, another vendor, sees only the snapshot
+  │   ├─ blocking issues ─────────► Fix ─► new snapshot ─► review again
+  │   └─ fixer and reviewer still disagree ─► third-party arbitration
+  ▼   (passed)
+Tests .......... run by the app itself; a model cannot overrule a failing
+                 exit code; real browser check for web projects
+  ▼
+Security ....... a model reads the code + deterministic scanners
+  ▼
+Deliver ........ on a task branch
 ```
 
 - A reviewer never comes from the same vendor family as the developer. If that leaves nobody, it first tries another model from the same vendor, and only then a fresh instance of the same model, and it labels the review for what it is instead of calling it cross-model independent.
