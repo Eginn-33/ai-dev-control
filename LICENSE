@@ -1,0 +1,41 @@
+AI Dev Control (AI研发总控) - Proprietary License
+
+Copyright (c) 2026 Elias Chen. All rights reserved.
+
+1. Source code
+
+The source code of AI Dev Control is not public. This repository contains
+documentation and screenshots only. Except for the limited permission in
+section 2, no right is granted to copy, modify, distribute, sublicense, sell
+or resell the software, or to reverse engineer, decompile or disassemble it,
+except to the extent applicable law expressly allows this despite this
+restriction.
+
+2. Released installers
+
+You may download the installers published under this repository's Releases,
+install them, and try out the software free of charge. This does not include
+the right to redistribute the installers; please share a link to the Releases
+page instead of the files.
+
+3. No warranty
+
+The software is provided "as is", without warranty of any kind, express or
+implied, including the warranties of merchantability, fitness for a particular
+purpose and non-infringement. The software drives AI models that change code
+and run commands in projects you point it at; you are responsible for
+reviewing the results and keeping your own backups. Fees charged by AI
+providers under your own subscriptions or API accounts are between you and
+those providers.
+
+4. Limitation of liability
+
+In no event shall the author be liable for any claim, damages or other
+liability, whether in contract, tort or otherwise, arising from, out of or in
+connection with the software or its use.
+
+5. Third-party components
+
+The software bundles third-party components, including Electron and Chromium.
+Those components are licensed under their own terms, included in the
+installation directory as LICENSE.electron.txt and LICENSES.chromium.html.
