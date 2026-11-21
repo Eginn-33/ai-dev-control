@@ -4,7 +4,7 @@
 
 Several AI coding assistants working on your project together, on your own Windows PC. One model writes the code; a model from a different vendor reviews it blind, without seeing how it was written. The app runs the tests itself, and no model can talk a failing exit code into a pass.
 
-<p align="center"><b>Windows x64 · v1.6.2 · UI: Simplified Chinese · installer only, source not public</b><br><a href="https://github.com/Eginn-33/ai-dev-control/releases/latest">Download the latest installer →</a></p>
+<p align="center"><b>Windows x64 · v1.6.3 · UI: Simplified Chinese · installer only, source not public</b><br><a href="https://github.com/Eginn-33/ai-dev-control/releases/latest">Download the latest installer →</a></p>
 
 <p align="center"><img src="docs/task-run.gif" alt="Recording of a real task in the installed app: the plan, the baseline, the version-control step and the code change complete one after another, the code is frozen into a fingerprinted snapshot, a blind review by glm-5.3 finishes as independent and cross-model, and the task ends on its own branch waiting to be merged" width="820"></p>
 
@@ -99,7 +99,7 @@ Deliver ........ on a task branch
 
 ## Screenshots
 
-All four come from one real task in the installed app, taken in a clean demo data folder on 1.6.0 (these screens are unchanged in 1.6.1 and 1.6.2). The Codex CLI (gpt-6.1-sol) planned it and wrote it as two parallel subtasks; Claude (claude-opus-5-5) and GLM (glm-5.3) reviewed it blind. The interface is Simplified Chinese. Click a picture for full size.
+All four come from one real task in the installed app, taken in a clean demo data folder on 1.6.0 (these screens are unchanged in 1.6.1, 1.6.2 and 1.6.3). The Codex CLI (gpt-6.1-sol) planned it and wrote it as two parallel subtasks; Claude (claude-opus-5-5) and GLM (glm-5.3) reviewed it blind. The interface is Simplified Chinese. Click a picture for full size.
 
 <table>
 <tr>
@@ -127,7 +127,7 @@ Gemini only works through an API key at the moment; see *Known limitations*.
 
 ## How it's tested
 
-- **Full offline suite:** 83 test files, 2,115 test cases. 2,114 passed, 1 skipped (a slow case that needs a special environment variable), 0 failed. Three TypeScript builds, 0 errors.
+- **Full offline suite:** 84 test files, 2,138 test cases. 2,137 passed, 1 skipped (a slow case that needs a special environment variable), 0 failed. Three TypeScript builds, 0 errors.
 - **On a real machine, using the installed build:** a UI crawl across 15 pages and their tabs (94 requests, 0 failed, 0 console errors); pause / resume / cancel drills; an install drill set up like a fresh computer.
 - **Deterministic test bench:** a local fake model drives 6 scenarios: quota exhausted, a reviewer handing in an empty review, a credential lookup timing out, a new model being onboarded, a rerun after a question, and the scope brake. Real model calls: 0.
 - **With real models:** the app fixing its own code, having several vendors each draft a plan and comparing the plans, session resume, and a capability test for each model.
@@ -139,12 +139,12 @@ Gemini only works through an API key at the moment; see *Known limitations*.
 
 1. Open [the latest release](https://github.com/Eginn-33/ai-dev-control/releases/latest).
 2. Download one of:
-   - `AI-Dev-Control-Setup-1.6.2-x64.exe`: the installer. Installs for the current user only, no administrator rights needed.
-   - `AI-Dev-Control-Portable-1.6.2-x64.exe`: the portable version. No installation, just run it.
+   - `AI-Dev-Control-Setup-1.6.3-x64.exe`: the installer. Installs for the current user only, no administrator rights needed.
+   - `AI-Dev-Control-Portable-1.6.3-x64.exe`: the portable version. No installation, just run it.
 3. Check the file against `SHA256SUMS.txt` from the same release:
 
    ```powershell
-   Get-FileHash .\AI-Dev-Control-Setup-1.6.2-x64.exe -Algorithm SHA256
+   Get-FileHash .\AI-Dev-Control-Setup-1.6.3-x64.exe -Algorithm SHA256
    ```
 
    The hash it prints (in upper case) should match the line for that file in `SHA256SUMS.txt` (in lower case).

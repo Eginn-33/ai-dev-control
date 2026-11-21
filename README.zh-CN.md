@@ -4,7 +4,7 @@
 
 在你自己的 Windows 电脑上，让几家 AI 编程助手一起给你的项目干活。一个模型写代码，另一家的模型在看不到开发过程的情况下独立审核。测试由总控自己跑，失败的退出码哪个模型也说不成通过。
 
-<p align="center"><b>Windows x64 · v1.6.2 · 界面：简体中文 · 只发安装包，源码不公开</b><br><a href="https://github.com/Eginn-33/ai-dev-control/releases/latest">下载最新安装包 →</a></p>
+<p align="center"><b>Windows x64 · v1.6.3 · 界面：简体中文 · 只发安装包，源码不公开</b><br><a href="https://github.com/Eginn-33/ai-dev-control/releases/latest">下载最新安装包 →</a></p>
 
 <p align="center"><img src="docs/task-run.gif" alt="在装好的软件里真跑一个任务的录屏：规划、记录基线、版本控制准备、开发实现依次完成，代码冻结成带指纹的快照，glm-5.3 的独立盲审完成并标为真实独立、跨模型，任务最后停在自己的分支上等你合并" width="820"></p>
 
@@ -97,7 +97,7 @@
 
 ## 截图
 
-四张都来自同一个真实任务，在装好的软件里、干净的演示数据目录中拍的，版本是 1.6.0（这几个界面在 1.6.1、1.6.2 没有变化）。Codex 命令行（gpt-6.1-sol）做规划，拆成两个并行子任务写代码；Claude（claude-opus-5-5）和 GLM（glm-5.3）各自盲审。界面只有简体中文。点图看大图。
+四张都来自同一个真实任务，在装好的软件里、干净的演示数据目录中拍的，版本是 1.6.0（这几个界面在 1.6.1、1.6.2、1.6.3 没有变化）。Codex 命令行（gpt-6.1-sol）做规划，拆成两个并行子任务写代码；Claude（claude-opus-5-5）和 GLM（glm-5.3）各自盲审。界面只有简体中文。点图看大图。
 
 <table>
 <tr>
@@ -125,7 +125,7 @@ Gemini 目前只能走 API key，原因见「已知限制」。
 
 ## 怎么测的
 
-- **离线全套测试：** 83 个测试文件、2115 条用例。2114 条通过，1 条跳过（要特殊环境变量才跑的慢用例），0 失败。三个 TypeScript 编译，0 错。
+- **离线全套测试：** 84 个测试文件、2138 条用例。2137 条通过，1 条跳过（要特殊环境变量才跑的慢用例），0 失败。三个 TypeScript 编译，0 错。
 - **真机，在装好的安装版上：** 界面巡检 15 个页面和各自的页签（94 次请求，0 失败，0 条控制台报错）；暂停 / 继续 / 取消演练；按全新电脑的样子做安装演练。
 - **确定性演练台：** 用本机假模型跑 6 个场景：额度用完、审核员交白卷、凭据读取超时、新型号接入、提问后重跑、范围刹车。真模型调用 0 次。
 - **真模型演练：** 总控修它自己、几家各出一版方案再比、会话续接、逐个型号做能力测试。
@@ -137,12 +137,12 @@ Gemini 目前只能走 API key，原因见「已知限制」。
 
 1. 打开[最新版本发布页](https://github.com/Eginn-33/ai-dev-control/releases/latest)。
 2. 二选一下载：
-   - `AI-Dev-Control-Setup-1.6.2-x64.exe`：安装版。只装给当前用户，不用管理员权限。
-   - `AI-Dev-Control-Portable-1.6.2-x64.exe`：免安装版，不用装，双击就跑。
+   - `AI-Dev-Control-Setup-1.6.3-x64.exe`：安装版。只装给当前用户，不用管理员权限。
+   - `AI-Dev-Control-Portable-1.6.3-x64.exe`：免安装版，不用装，双击就跑。
 3. 用同一个发布页里的 `SHA256SUMS.txt` 核对文件：
 
    ```powershell
-   Get-FileHash .\AI-Dev-Control-Setup-1.6.2-x64.exe -Algorithm SHA256
+   Get-FileHash .\AI-Dev-Control-Setup-1.6.3-x64.exe -Algorithm SHA256
    ```
 
    打出来的哈希（大写）应该和 `SHA256SUMS.txt` 里这个文件那一行（小写）一样。
