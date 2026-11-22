@@ -4,7 +4,7 @@
 
 Several AI coding assistants working on your project together, on your own Windows PC. One model writes the code; a model from a different vendor reviews it blind, without seeing how it was written. The app runs the tests itself, and no model can talk a failing exit code into a pass.
 
-<p align="center"><b>Windows x64 · v1.6.3 · UI: Simplified Chinese · installer only, source not public</b><br><a href="https://github.com/Eginn-33/ai-dev-control/releases/latest">Download the latest installer →</a></p>
+<p align="center"><b>Windows x64 · v1.6.4 · UI: Simplified Chinese · installer only, source not public</b><br><a href="https://github.com/Eginn-33/ai-dev-control/releases/latest">Download the latest installer →</a></p>
 
 <p align="center"><img src="docs/task-run.gif" alt="Recording of a real task in the installed app: the plan, the baseline, the version-control step and the code change complete one after another, the code is frozen into a fingerprinted snapshot, a blind review by glm-5.3 finishes as independent and cross-model, and the task ends on its own branch waiting to be merged" width="820"></p>
 
@@ -92,14 +92,17 @@ Deliver ........ on a task branch
 
 ### Local by design
 
+<p align="center"><img src="docs/whats-new-1.6.4.png" alt="Since 1.6.4, sessions the app starts no longer load your own instruction files or the instruction files of parent folders; the project's own instructions are kept. Measured on a real Claude Code session: input went from 194,689 tokens to 73,583." width="760"></p>
+
 - Everything runs on your PC. API keys are encrypted with Windows DPAPI; the database stores a reference to them (plus a masked first/last few characters for display), never the key itself.
 - The local API only answers on 127.0.0.1, and its access token is regenerated on every start.
 - The data folder's permissions are narrowed to the current Windows user (plus SYSTEM and Administrators).
+- Sessions the app starts don't carry your personal instructions to the model (since 1.6.4). Claude Code sessions leave out the instruction files in your user config folder and in every parent folder of the working directory; Codex sessions don't read `AGENTS.md` from parent folders. The instructions in the project's own folder are still loaded.
 - The app goes online to reach the AI services you configure, plus public pages it watches: vendor model catalogs, release notes and status pages, and the npm / GitHub release feeds of the CLI tools it drives (to notice new models and new tool versions). If you set up a git remote or a delivery target for a project, it talks to that as well. For Node projects the security scan runs `npm audit`, which sends the dependency list to the npm registry. And the code and prompts of each task go to whichever AI services do the work.
 
 ## Screenshots
 
-All four come from one real task in the installed app, taken in a clean demo data folder on 1.6.0 (these screens are unchanged in 1.6.1, 1.6.2 and 1.6.3). The Codex CLI (gpt-6.1-sol) planned it and wrote it as two parallel subtasks; Claude (claude-opus-5-5) and GLM (glm-5.3) reviewed it blind. The interface is Simplified Chinese. Click a picture for full size.
+All four come from one real task in the installed app, taken in a clean demo data folder on 1.6.0 (these screens are unchanged in 1.6.1 through 1.6.4). The Codex CLI (gpt-6.1-sol) planned it and wrote it as two parallel subtasks; Claude (claude-opus-5-5) and GLM (glm-5.3) reviewed it blind. The interface is Simplified Chinese. Click a picture for full size.
 
 <table>
 <tr>
@@ -127,8 +130,8 @@ Gemini only works through an API key at the moment; see *Known limitations*.
 
 ## How it's tested
 
-- **Full offline suite:** 84 test files, 2,138 test cases. 2,137 passed, 1 skipped (a slow case that needs a special environment variable), 0 failed. Three TypeScript builds, 0 errors.
-- **On a real machine, using the installed build:** a UI crawl across 15 pages and their tabs (94 requests, 0 failed, 0 console errors); pause / resume / cancel drills; an install drill set up like a fresh computer.
+- **Full offline suite:** 86 test files, 2,237 test cases. 2,236 passed, 1 skipped (a slow case that needs a special environment variable), 0 failed. Three TypeScript builds, 0 errors.
+- **On a real machine, using the installed build:** a UI crawl across 15 pages and their tabs (93 requests, 0 failed, 0 console errors); pause / resume / cancel drills; an install drill set up like a fresh computer.
 - **Deterministic test bench:** a local fake model drives 6 scenarios: quota exhausted, a reviewer handing in an empty review, a credential lookup timing out, a new model being onboarded, a rerun after a question, and the scope brake. Real model calls: 0.
 - **With real models:** the app fixing its own code, having several vendors each draft a plan and comparing the plans, session resume, and a capability test for each model.
 - **Release gate:** one command, `verify-done`, runs 5 gates: no open items left on the requirements ledger (62 done; the rest recorded as decided against, out of scope, needing outside conditions, or not triggerable on a real machine), each done item's own check re-run from scratch, the full suite, the installed build matching the code file for file, and fresh real-machine evidence. A version isn't done until it exits with 0.
@@ -139,12 +142,12 @@ Gemini only works through an API key at the moment; see *Known limitations*.
 
 1. Open [the latest release](https://github.com/Eginn-33/ai-dev-control/releases/latest).
 2. Download one of:
-   - `AI-Dev-Control-Setup-1.6.3-x64.exe`: the installer. Installs for the current user only, no administrator rights needed.
-   - `AI-Dev-Control-Portable-1.6.3-x64.exe`: the portable version. No installation, just run it.
+   - `AI-Dev-Control-Setup-1.6.4-x64.exe`: the installer. Installs for the current user only, no administrator rights needed.
+   - `AI-Dev-Control-Portable-1.6.4-x64.exe`: the portable version. No installation, just run it.
 3. Check the file against `SHA256SUMS.txt` from the same release:
 
    ```powershell
-   Get-FileHash .\AI-Dev-Control-Setup-1.6.3-x64.exe -Algorithm SHA256
+   Get-FileHash .\AI-Dev-Control-Setup-1.6.4-x64.exe -Algorithm SHA256
    ```
 
    The hash it prints (in upper case) should match the line for that file in `SHA256SUMS.txt` (in lower case).
@@ -167,6 +170,7 @@ The download is about 96 MB and includes its own runtime, so you don't need to i
 - A personal Gemini subscription can't be connected. Google has stopped letting the Gemini CLI use Gemini Code Assist for individuals; the server's answer is "This client is no longer supported for Gemini Code Assist for individuals". Gemini works through an API key only.
 - Nothing gets assigned until at least one AI executor works (a signed-in Claude Code CLI or Codex CLI, or an API key).
 - The Codex CLI and Gemini CLI in CLI mode, and ACP agents, can write code but never act as blind reviewers, because the app can't enforce folder isolation on them.
+- Codex CLI 0.169.0 has no switch to leave out your user-level `~/.codex/AGENTS.md` and skill list. They stay in the context of Codex sessions; the app only tells the model at the top of the prompt not to follow them.
 - Not tested on Windows 10.
 - The source code is not public.
 
