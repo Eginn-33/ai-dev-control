@@ -4,7 +4,7 @@
 
 Several AI coding assistants working on your project together, on your own Windows PC. One model writes the code; a model from a different vendor reviews it blind, without seeing how it was written. The app runs the tests itself, and no model can talk a failing exit code into a pass.
 
-<p align="center"><b>Windows x64 · v1.6.4 · UI: Simplified Chinese · installer only, source not public</b><br><a href="https://github.com/Eginn-33/ai-dev-control/releases/latest">Download the latest installer →</a></p>
+<p align="center"><b>Windows x64 · v1.6.5 · UI: Simplified Chinese · installer only, source not public</b><br><a href="https://github.com/Eginn-33/ai-dev-control/releases/latest">Download the latest installer →</a></p>
 
 <p align="center"><img src="docs/task-run.gif" alt="Recording of a real task in the installed app: the plan, the baseline, the version-control step and the code change complete one after another, the code is frozen into a fingerprinted snapshot, a blind review by glm-5.3 finishes as independent and cross-model, and the task ends on its own branch waiting to be merged" width="820"></p>
 
@@ -56,6 +56,18 @@ Deliver ........ on a task branch
 
 ## Features
 
+### Watch it work: the Task Office (new in 1.6.5)
+
+<p align="center"><img src="docs/whats-new-1.6.5.png" alt="The Task Office: one room per stage, every character is a real executor instance, a chat built from the task record, a replay bar; next to it, what else 1.6.5 changes" width="820"></p>
+
+<p align="center"><img src="docs/office-replay.gif" alt="Replaying a finished demo task in the Task Office: three subtasks developed in parallel by models from three vendors, the merge, two blind reviews, tests and delivery" width="760"></p>
+<p align="center"><sub>Replay of a finished demo task in the installed app (three subtasks in parallel, then the merge, blind reviews and tests).</sub></p>
+
+- **One room per stage.** Planning, development, merge, review, fixes, tests, done. Every character is a real executor instance; the name plate is the executor, hovering shows the model it actually reported. Models that aren't running right now sit in the lounge.
+- **Chat, live output, replay.** The chat is built from the task record, in order. Click a character (or a message) for its output, up to four side by side. Drag the bar to replay a finished task from the start.
+- **Tells you when it needs you.** A desktop notification when a model is waiting for your answer, when reviewers keep failing to review, and when a task ends; clicking it opens that task.
+- **The UI says what really happened.** More than 120 places were checked against what the app actually does and fixed: old results carry their age, missing numbers aren't shown as 0, partial failures aren't green, "merged" and "live" mean it's true now.
+
 ### Several models, one project
 
 - **Parallel development across vendors.** A task can be split into subtasks. Each subtask gets its own full working copy and its own model, they run at the same time, and the results are three-way merged. A real conflict is never written into your code as a `<<<<<<<` half-file; it goes to a model as three versions (base / main / copy) to resolve.
@@ -68,6 +80,7 @@ Deliver ........ on a task branch
 - **Independent blind review.** The reviewer is a new instance in a new session, working on a frozen snapshot directory, not your real project folder. It gets no developer reasoning and no other reviewer's report. The snapshot fingerprint is checked before and after the review, so you know the code didn't change underneath it.
 - **Independence proof.** Every review comes with a list of exactly what the reviewer was given and what was withheld.
 - **Fix loop and arbitration.** Issues above the threshold go to a fix, the fix produces a new snapshot, and a fresh reviewer looks again. If the fixer and the reviewer still disagree, a third-party model rules on each disputed issue.
+- **Reviewers are picked on their own record (since 1.6.5).** Among reviewers that are equally independent, the ones that recently finished their reviews, and finished them faster, go first; the record is written into the assignment. Independence still comes first: the record can't put the developer's own vendor ahead.
 - **Scope-aware.** Problems that were already in your code and are outside what you asked for still get reported, but they're labelled out-of-scope and don't hold the task up.
 
 ### Measured, not claimed
@@ -87,6 +100,7 @@ Deliver ........ on a task branch
 ### Careful with your repository
 
 - **Task branches.** Work happens on a separate task branch. Uncommitted changes you already had are stashed and handed back when the task finishes. If a task fails or is cancelled halfway, the work in progress is saved as a local commit and you're switched back to your original branch.
+- **Merges follow the current commit (since 1.6.5).** When a task is re-run and pushes a new commit, checks and auto-merge use the head commit on the platform now. A new commit whose checks failed, can't be read or aren't registered yet isn't merged, and the app never reports a merge that didn't happen.
 - **Crash recovery.** A checkpoint is written after each stage. After a crash, finished stages aren't redone. If automatic recovery has run more than 3 times in a row and the task still isn't done, it stops and waits for a person instead of burning quota.
 - **Self-repair (author's machine).** On the author's development machine, where the app's own source lives, a failed task can be turned into a job to fix AI Dev Control itself. It goes through the same develop → blind review → test path and stops on a task branch for a human to confirm. Installed copies without the source don't show this button.
 
@@ -102,7 +116,7 @@ Deliver ........ on a task branch
 
 ## Screenshots
 
-All four come from one real task in the installed app, taken in a clean demo data folder on 1.6.0 (these screens are unchanged in 1.6.1 through 1.6.4). The Codex CLI (gpt-6.1-sol) planned it and wrote it as two parallel subtasks; Claude (claude-opus-5-5) and GLM (glm-5.3) reviewed it blind. The interface is Simplified Chinese. Click a picture for full size.
+All four come from one real task in the installed app, taken in a clean demo data folder on 1.6.0 (since 1.6.5 the task page opens on the Task Office shown above and many labels are more precise). The Codex CLI (gpt-6.1-sol) planned it and wrote it as two parallel subtasks; Claude (claude-opus-5-5) and GLM (glm-5.3) reviewed it blind. The interface is Simplified Chinese. Click a picture for full size.
 
 <table>
 <tr>
@@ -130,8 +144,8 @@ Gemini only works through an API key at the moment; see *Known limitations*.
 
 ## How it's tested
 
-- **Full offline suite:** 86 test files, 2,237 test cases. 2,236 passed, 1 skipped (a slow case that needs a special environment variable), 0 failed. Three TypeScript builds, 0 errors.
-- **On a real machine, using the installed build:** a UI crawl across 15 pages and their tabs (93 requests, 0 failed, 0 console errors); pause / resume / cancel drills; an install drill set up like a fresh computer.
+- **Full offline suite:** 99 test files, 2,587 test cases. 2,586 passed, 1 skipped (a slow case that needs a special environment variable), 0 failed. Three TypeScript builds, 0 errors.
+- **On a real machine, using the installed build:** a UI crawl across 15 pages and their tabs (108 requests, 0 failed, 0 console errors); pause / resume / cancel drills; an install drill set up like a fresh computer.
 - **Deterministic test bench:** a local fake model drives 6 scenarios: quota exhausted, a reviewer handing in an empty review, a credential lookup timing out, a new model being onboarded, a rerun after a question, and the scope brake. Real model calls: 0.
 - **With real models:** the app fixing its own code, having several vendors each draft a plan and comparing the plans, session resume, and a capability test for each model.
 - **Release gate:** one command, `verify-done`, runs 5 gates: no open items left on the requirements ledger (62 done; the rest recorded as decided against, out of scope, needing outside conditions, or not triggerable on a real machine), each done item's own check re-run from scratch, the full suite, the installed build matching the code file for file, and fresh real-machine evidence. A version isn't done until it exits with 0.
@@ -142,12 +156,12 @@ Gemini only works through an API key at the moment; see *Known limitations*.
 
 1. Open [the latest release](https://github.com/Eginn-33/ai-dev-control/releases/latest).
 2. Download one of:
-   - `AI-Dev-Control-Setup-1.6.4-x64.exe`: the installer. Installs for the current user only, no administrator rights needed.
-   - `AI-Dev-Control-Portable-1.6.4-x64.exe`: the portable version. No installation, just run it.
+   - `AI-Dev-Control-Setup-1.6.5-x64.exe`: the installer. Installs for the current user only, no administrator rights needed.
+   - `AI-Dev-Control-Portable-1.6.5-x64.exe`: the portable version. No installation, just run it.
 3. Check the file against `SHA256SUMS.txt` from the same release:
 
    ```powershell
-   Get-FileHash .\AI-Dev-Control-Setup-1.6.4-x64.exe -Algorithm SHA256
+   Get-FileHash .\AI-Dev-Control-Setup-1.6.5-x64.exe -Algorithm SHA256
    ```
 
    The hash it prints (in upper case) should match the line for that file in `SHA256SUMS.txt` (in lower case).
